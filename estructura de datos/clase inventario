@@ -1,0 +1,42 @@
+class Inventario:
+    def __init__(self):
+        self.productos = []  # Lista que contiene los productos
+
+    def añadir_producto(self, producto):
+        # Verifica si el ID ya existe para evitar duplicados
+        if any(prod.get_id() == producto.get_id() for prod in self.productos):
+            print("Error: Ya existe un producto con ese ID.")
+        else:
+            self.productos.append(producto)
+            print(f"Producto {producto.get_nombre()} añadido correctamente.")
+
+    def eliminar_producto(self, id_producto):
+        # Filtra la lista para eliminar el producto con el ID especificado
+        self.productos = [prod for prod in self.productos if prod.get_id() != id_producto]
+        print(f"Producto con ID {id_producto} eliminado correctamente.")
+
+    def actualizar_producto(self, id_producto, cantidad=None, precio=None):
+        for producto in self.productos:
+            if producto.get_id() == id_producto:
+                if cantidad is not None:
+                    producto.set_cantidad(cantidad)
+                if precio is not None:
+                    producto.set_precio(precio)
+                print(f"Producto con ID {id_producto} actualizado correctamente.")
+                return
+        print(f"Error: No se encontró un producto con ID {id_producto}.")
+
+    def buscar_producto_por_nombre(self, nombre):
+        resultados = [prod for prod in self.productos if nombre.lower() in prod.get_nombre().lower()]
+        if resultados:
+            for producto in resultados:
+                print(producto)
+        else:
+            print(f"No se encontraron productos con el nombre '{nombre}'.")
+
+    def mostrar_inventario(self):
+        if not self.productos:
+            print("El inventario está vacío.")
+        else:
+            for producto in self.productos:
+                print(producto)
